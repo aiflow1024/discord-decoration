@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { generateWebmanifest } from "./build/generateWebmanifest";
 import { generateFavicons } from "./build/generateFavicons";
 import { generateMeta } from "./build/generateMeta";
+import { cssOptimizationPlugin } from "./build/cssOptimizationPlugin.js";
 
 import browserslist from "browserslist";
 import { browserslistToTargets } from "lightningcss";
@@ -46,7 +47,7 @@ export default defineConfig({
       prerender: {
         enabled: true,
         renderTarget: "#app",
-        additionalPrerenderRoutes: ["/404", "/faq", "/discuss", "/discord_avatar", "/discord_avatar_decoration", "/discord_front", "/gif-extractor", "/changelog", "/blog/discord-font", "/blog/discord-avatar-decorations", "/blog/how-to-split-gif-into-frames", "/about-us", "/cookies-policy", "/contact-support"],
+        additionalPrerenderRoutes: ["/404", "/faq", "/discuss", "/discord_avatar", "/discord_avatar_decoration", "/discord_front", "/gif-extractor", "/changelog", "/blog", "/blog/discord-font", "/blog/discord-avatar-decorations", "/blog/how-to-split-gif-into-frames", "/blog/new-free-discord-avatar-decorations", "/about-us", "/cookies-policy", "/contact-support"],
         previewMiddlewareEnabled: true,
         previewMiddlewareFallback: "/404",
       },
@@ -72,7 +73,7 @@ export default defineConfig({
       name: "generate-meta",
       transformIndexHtml(html) {
         return generateMeta(html, {
-          title: "Discord Decoration - Free Avatar Decorations for Discord.",
+          title: "Discord Decorations - Free Avatar Decorations for Discord.",
           description: "Create stunning Discord avatar decorations for free. Add custom decorations to your profile picture without spending money on Discord Nitro.",
           image: `${
             process.env.VITE_BASE_IMAGE_URL || ""
@@ -86,6 +87,7 @@ export default defineConfig({
         return html.replace(/[\n\t]| {2}/g, "");
       },
     },
+    cssOptimizationPlugin(),
   ],
   optimizeDeps: {
     exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
